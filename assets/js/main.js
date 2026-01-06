@@ -411,10 +411,6 @@ scrollToTopBtn.addEventListener('click', (e) => {
 });
 
 // ──────────────────────────────────────────
-// ANIMASI ENTRANCE ON SCROLL (Robust)
-// ──────────────────────────────────────────
-
-// ──────────────────────────────────────────
 // ANIMASI ENTRANCE — LANGSUNG JALAN SAAT SIAP
 // ──────────────────────────────────────────
 
@@ -437,12 +433,19 @@ function animateElements() {
   });
 }
 
+// Jalankan sesegera mungkin
+document.addEventListener('DOMContentLoaded', animateElements);
+window.addEventListener('load', animateElements);
 
-// Jalankan saat SEMUA aset selesai (termasuk gambar)
-window.addEventListener('load', () => {
-  animateOnScroll();
-  window.addEventListener('scroll', animateOnScroll);
+// Juga pantau saat scroll (untuk elemen di bawah)
+let scrollTimer;
+window.addEventListener('scroll', () => {
+  clearTimeout(scrollTimer);
+  scrollTimer = setTimeout(animateElements, 100);
 });
+
+// Fallback: jalankan semua setelah 1 detik (jika IntersectionObserver gagal)
+setTimeout(animateElements, 1000);
 
 // ──────────────────────────────────────────
 // COMMON INIT (jalankan di semua halaman)
