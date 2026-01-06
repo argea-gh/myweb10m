@@ -97,6 +97,10 @@ function renderProducts(category = 'all') {
       if (product) openProductModal(product);
     });
   });
+
+    // ✅ PANGGIL ANIMASI SETELAH RENDER SELESAI
+  setTimeout(animateElements, 100); // delay kecil untuk DOM update
+  
 }
 
 // ──────────────────────────────────────────
