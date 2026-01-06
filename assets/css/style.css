@@ -1223,7 +1223,7 @@ body {
 
 /* ──────── Tambah Animasi Entrance ───────── */
 /* ANIMASI ENTRANCE (Fade & Slide) */
-/* ────────────────────────────────────────── */
+/* ─── animasi "easeOutExpo" → lebih natural ─ */
 
 .fade-in,
 .slide-up,
@@ -1231,7 +1231,8 @@ body {
 .slide-right {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .slide-left { transform: translateX(-30px); }
@@ -1242,8 +1243,9 @@ body {
 .slide-left.visible,
 .slide-right.visible {
   opacity: 1;
-  transform: translateY(0) translateX(0);
+  transform: none;
 }
+
 /* ────────────────────────────────────────── */
 /* CART PANEL: Kontrol Jumlah (+ / -) */
 /* ────────────────────────────────────────── */
