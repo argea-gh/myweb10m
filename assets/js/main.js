@@ -415,27 +415,45 @@ scrollToTopBtn.addEventListener('click', (e) => {
 });
 
 // ──────────────────────────────────────────
-// ANIMASI ENTRANCE — LANGSUNG JALAN SAAT SIAP
+// ANIMASI VERSI LAMA — TAPI LANGSUNG JALAN SAAT SIAP
 // ──────────────────────────────────────────
 
-function animateElements() {
-  const elements = document.querySelectorAll('.fade-in, .slide-up, .slide-left, .slide-right');
+function animateOnReady() {
+  const elements = document.querySelectorAll(
+    '.fade-in, .slide-up, .slide-left, .slide-right'
+  );
   
   elements.forEach(el => {
     if (el.classList.contains('visible')) return;
     
-    // Cek: apakah elemen sudah di viewport?
+    // Cek: apakah elemen sudah dekat viewport?
     const rect = el.getBoundingClientRect();
-    const inView = (
-      rect.top <= window.innerHeight * 1.2 && 
-      rect.bottom >= -rect.height * 0.2
-    );
+    const isNearViewport = rect.top < window.innerHeight + 200;
     
-    if (inView) {
-      el.classList.add('visible');
+    if (isNearViewport) {
+      // Beri sedikit delay untuk efek "berurutan"
+      const index = Array.from(elements).indexOf(el);
+      const baseDelay = Math.min(index * 0.1, 0.8); // max 0.8s
+      
+      setTimeout(() => {
+        if (!el.classList.contains('visible')) {
+          el.classList.add('visible');
+        }
+      }, baseDelay * 1000);
     }
   });
 }
+
+// Jalankan saat DOM & aset siap
+document.addEventListener('DOMContentLoaded', animateOnReady);
+window.addEventListener('load', animateOnReady);
+
+// Tetap pantau saat scroll (untuk elemen jauh di bawah)
+let scrollTimer;
+window.addEventListener('scroll', () => {
+  clearTimeout(scrollTimer);
+  scrollTimer = setTimeout(animateOnReady, 150);
+});
 
 // Jalankan sesegera mungkin
 document.addEventListener('DOMContentLoaded', animateElements);
