@@ -411,29 +411,41 @@ scrollToTopBtn.addEventListener('click', (e) => {
 });
 
 // ──────────────────────────────────────────
-// ANIMASI ENTRANCE ON SCROLL (Robust)
+// ANIMASI ENTRANCE — LANGSUNG JALAN SAAT SIAP
 // ──────────────────────────────────────────
 
-function animateOnScroll() {
+function animateElements() {
   const elements = document.querySelectorAll('.fade-in, .slide-up, .slide-left, .slide-right');
   
   elements.forEach(el => {
-    if (el.classList.contains('visible')) return; // hindari ulang
+    if (el.classList.contains('visible')) return;
     
+    // Cek: apakah elemen sudah di viewport?
     const rect = el.getBoundingClientRect();
-    const isVisible = rect.top < window.innerHeight * 0.9 && rect.bottom > 0;
+    const inView = (
+      rect.top <= window.innerHeight * 1.2 && 
+      rect.bottom >= -rect.height * 0.2
+    );
     
-    if (isVisible) {
+    if (inView) {
       el.classList.add('visible');
     }
   });
 }
 
-// Jalankan saat SEMUA aset selesai (termasuk gambar)
-window.addEventListener('load', () => {
-  animateOnScroll();
-  window.addEventListener('scroll', animateOnScroll);
+// Jalankan sesegera mungkin
+document.addEventListener('DOMContentLoaded', animateElements);
+window.addEventListener('load', animateElements);
+
+// Juga pantau saat scroll (untuk elemen di bawah)
+let scrollTimer;
+window.addEventListener('scroll', () => {
+  clearTimeout(scrollTimer);
+  scrollTimer = setTimeout(animateElements, 100);
 });
+
+// Fallback: jalankan semua setelah 1 detik (jika IntersectionObserver gagal)
+setTimeout(animateElements, 1000);
 
 // ──────────────────────────────────────────
 // COMMON INIT (jalankan di semua halaman)
