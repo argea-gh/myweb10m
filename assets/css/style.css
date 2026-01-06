@@ -1223,10 +1223,6 @@ body {
 
 /* ──────── Tambah Animasi Entrance ───────── */
 /* ANIMASI ENTRANCE (Fade & Slide) */
-/* ─── animasi "easeOutExpo" → lebih natural ─ */
-
-/* ────────────────────────────────────────── */
-/* ANIMASI ENTRANCE — VERSI LAMA (LEBIH HALUS) */
 /* ────────────────────────────────────────── */
 
 .fade-in,
@@ -1234,32 +1230,20 @@ body {
 .slide-left,
 .slide-right {
   opacity: 0;
-  transform: translateY(40px) scale(0.98);
-  transition: opacity 0.8s cubic-bezier(0.215, 0.61, 0.355, 1), 
-              transform 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-.slide-left { transform: translateX(-40px); }
-.slide-right { transform: translateX(40px); }
+.slide-left { transform: translateX(-30px); }
+.slide-right { transform: translateX(30px); }
 
 .fade-in.visible,
 .slide-up.visible,
 .slide-left.visible,
 .slide-right.visible {
   opacity: 1;
-  transform: none;
+  transform: translateY(0) translateX(0);
 }
-
-/* Delay stagger yang lebih halus */
-.stagger-item:nth-child(1) { transition-delay: 0.1s; }
-.stagger-item:nth-child(2) { transition-delay: 0.2s; }
-.stagger-item:nth-child(3) { transition-delay: 0.3s; }
-.stagger-item:nth-child(4) { transition-delay: 0.4s; }
-.stagger-item:nth-child(5) { transition-delay: 0.5s; }
-.stagger-item:nth-child(6) { transition-delay: 0.6s; }
-.stagger-item:nth-child(7) { transition-delay: 0.7s; }
-.stagger-item:nth-child(8) { transition-delay: 0.8s; }
-
 /* ────────────────────────────────────────── */
 /* CART PANEL: Kontrol Jumlah (+ / -) */
 /* ────────────────────────────────────────── */
@@ -1436,6 +1420,13 @@ body {
 }
 /* ────────── End of Tambahan ─────────────── */
 
+/* Delay bertingkat untuk grid */
+.stagger-item:nth-child(1) { transition-delay: 0.1s; }
+.stagger-item:nth-child(2) { transition-delay: 0.2s; }
+.stagger-item:nth-child(3) { transition-delay: 0.3s; }
+.stagger-item:nth-child(4) { transition-delay: 0.4s; }
+.stagger-item:nth-child(5) { transition-delay: 0.5s; }
+.stagger-item:nth-child(6) { transition-delay: 0.6s; }
 
 /* ────────────────────────────────────────── */
 /* MODAL INFO SECTION — JARAK & STYLING */
