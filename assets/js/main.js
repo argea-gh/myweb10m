@@ -415,7 +415,7 @@ scrollToTopBtn.addEventListener('click', (e) => {
 });
 
 // ──────────────────────────────────────────
-// ANIMASI VERSI LAMA — TAPI LANGSUNG JALAN SAAT SIAP
+// ANIMASI VERSI LAMA — HALUS, STAGGER, TANPA BLANK
 // ──────────────────────────────────────────
 
 function animateOnReady() {
@@ -423,23 +423,21 @@ function animateOnReady() {
     '.fade-in, .slide-up, .slide-left, .slide-right'
   );
   
-  elements.forEach(el => {
+  elements.forEach((el, index) => {
     if (el.classList.contains('visible')) return;
     
-    // Cek: apakah elemen sudah dekat viewport?
+    // Cek apakah elemen sudah di/near viewport
     const rect = el.getBoundingClientRect();
-    const isNearViewport = rect.top < window.innerHeight + 200;
+    const isNear = rect.top < window.innerHeight + 200 && rect.bottom > -100;
     
-    if (isNearViewport) {
-      // Beri sedikit delay untuk efek "berurutan"
-      const index = Array.from(elements).indexOf(el);
-      const baseDelay = Math.min(index * 0.1, 0.8); // max 0.8s
-      
+    if (isNear) {
+      // Delay stagger: 0.1s per item
+      const delay = Math.min(index * 0.1, 0.8);
       setTimeout(() => {
         if (!el.classList.contains('visible')) {
           el.classList.add('visible');
         }
-      }, baseDelay * 1000);
+      }, delay * 1000);
     }
   });
 }
@@ -448,26 +446,15 @@ function animateOnReady() {
 document.addEventListener('DOMContentLoaded', animateOnReady);
 window.addEventListener('load', animateOnReady);
 
-// Tetap pantau saat scroll (untuk elemen jauh di bawah)
+// Pantau saat scroll (untuk elemen di bawah)
 let scrollTimer;
 window.addEventListener('scroll', () => {
   clearTimeout(scrollTimer);
   scrollTimer = setTimeout(animateOnReady, 150);
 });
 
-// Jalankan sesegera mungkin
-document.addEventListener('DOMContentLoaded', animateElements);
-window.addEventListener('load', animateElements);
-
-// Juga pantau saat scroll (untuk elemen di bawah)
-let scrollTimer;
-window.addEventListener('scroll', () => {
-  clearTimeout(scrollTimer);
-  scrollTimer = setTimeout(animateElements, 100);
-});
-
-// Fallback: jalankan semua setelah 1 detik (jika IntersectionObserver gagal)
-setTimeout(animateElements, 1000);
+// Fallback aman: jalankan semua setelah 1.2 detik
+setTimeout(animateOnReady, 1200);
 
 // ──────────────────────────────────────────
 // COMMON INIT (jalankan di semua halaman)
